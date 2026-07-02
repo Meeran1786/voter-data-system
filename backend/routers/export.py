@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Voter
-from routers.voters import _fts_search_ids
+from routers.voters import _apply_text_search
 
 router = APIRouter()
 
@@ -42,10 +42,7 @@ def _build_query(db: Session, q, voter_id, full_name, state, district,
     query = db.query(Voter)
 
     if q and q.strip():
-        ids = _fts_search_ids(q.strip(), limit=50_000)
-        if not ids:
-            return query.filter(False)
-        query = query.filter(Voter.id.in_(ids))
+        query = _apply_text_search(query, q.strip())
 
     filters = []
     if voter_id:
