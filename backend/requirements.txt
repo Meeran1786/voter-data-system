@@ -1,0 +1,33 @@
+# ─── Web framework ───────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9          # file upload support
+
+# ─── Database ─────────────────────────────────────────────────────────────────
+sqlalchemy>=2.0.30
+psycopg2-binary>=2.9.9           # PostgreSQL driver (Neon / Render Postgres)
+# aiosqlite>=0.20.0             # only needed if you want async SQLite (local dev)
+
+# ─── File parsing ─────────────────────────────────────────────────────────────
+pandas>=2.2.2                    # CSV/Excel via pandas (optional, backup)
+openpyxl>=3.1.4                  # .xlsx read/write
+xlrd>=2.0.1                      # legacy .xls support
+python-docx>=1.1.2               # .docx parsing
+pdfplumber>=0.11.1               # native PDF text extraction
+pypdf>=4.2.0                     # fallback PDF reader
+chardet>=5.2.0                   # encoding detection for CSV files
+
+# ─── OCR (optional — install Tesseract system package separately) ─────────────
+pytesseract>=0.3.13              # Python wrapper for Tesseract OCR
+pdf2image>=1.17.0                # Convert scanned PDF pages → images (needs poppler)
+Pillow>=10.4.0                   # Image preprocessing
+
+# ─── EasyOCR (optional, set USE_EASYOCR=true — requires ~2GB ONNX models) ────
+# easyocr>=1.7.1
+
+# ─── Export ───────────────────────────────────────────────────────────────────
+reportlab>=4.2.2                 # PDF export
+
+# ─── Utilities ────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.1
+pydantic[email]>=2.7.4

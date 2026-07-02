@@ -1,0 +1,35 @@
+# Render deployment config — https://render.com/docs/render-yaml
+# Push this file to your Git repo root; Render reads it automatically.
+
+services:
+  - type: web
+    name: voter-data-backend
+    runtime: python
+    rootDir: backend          # Render runs from this sub-directory
+    buildCommand: apt-get install -y tesseract-ocr poppler-utils && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+
+    envVars:
+      # ── Paste your Neon connection string here (or set in the Render dashboard) ──
+      - key: DATABASE_URL
+        sync: false           # set manually — never commit credentials to git
+
+      # ── JWT secret — Render auto-generates a secure random value ──
+      - key: JWT_SECRET
+        generateValue: true
+
+      # ── Admin credentials ──
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false           # set in Render dashboard
+
+      # ── OCR DPI — lower = faster/less RAM; 150 is good for Render free tier ──
+      - key: OCR_DPI
+        value: "150"
+
+      # ── CORS — add your Vercel URL after deployment ──
+      # Example: http://localhost:3001,https://voter-app.vercel.app
+      - key: ALLOWED_ORIGINS
+        sync: false
